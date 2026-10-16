@@ -22,5 +22,13 @@
     "size": 103672,
     "uploadedAt": "2026-10-16T15:55:50.731Z",
     "githubPath": "storage/1792166149541_ec7ce752b07f6073.jpg"
+  },
+  "ce463e9bd890e76d7dcd641a9836d134caad94d2c01bf48ff501745a2f5304e6": {
+    "filename": "1792166397786_9644d55e44ca52f1.mp4",
+    "originalName": "test-buffer.mp4",
+    "type": "mp4",
+    "size": 1426777,
+    "uploadedAt": "2026-10-16T15:59:59.138Z",
+    "githubPath": "storage/1792166397786_9644d55e44ca52f1.mp4"
   }
 }
