@@ -103,33 +103,48 @@ app.post('/api/upload.php', upload.single('file'), async (req, res) => {
 });
 
 // ==========================================
-// 3. ACCESS ENDPOINT (DIRECT STREAMING)
+// 3. ACCESS ENDPOINT (FIXED PARSING + STREAMING)
 // ==========================================
 app.get('/st-v2/ikyapis', async (req, res) => {
   try {
-    // Parsing URL (Handle Vercel Encoding %2F)
     let type, token;
-    const queryStr = req.url.split('?')[1] || '';
     
-    if (queryStr.includes('/token=') || queryStr.includes('%2Ftoken=')) {
-      const separator = queryStr.includes('%2Ftoken=') ? '%2Ftoken=' : '/token=';
+    // Ambil raw query string dari URL asli
+    const queryStr = req.originalUrl.split('?')[1] || '';
+    
+    // DETEKSI SEMUA VARIASI ENCODING VERCEL:
+    // Normal: /token=
+    // Encoded slash: %2Ftoken=
+    // Encoded equals: /token%3D
+    // Double encoded: %2Ftoken%3D
+    
+    let separator = null;
+    if (queryStr.includes('%2Ftoken%3D')) separator = '%2Ftoken%3D';
+    else if (queryStr.includes('%2Ftoken=')) separator = '%2Ftoken=';
+    else if (queryStr.includes('/token%3D')) separator = '/token%3D';
+    else if (queryStr.includes('/token=')) separator = '/token=';
+    
+    if (separator) {
       const parts = queryStr.split(separator);
+      // parts[0] biasanya "type=jpg", ambil value setelah "=" pertama
       const typePart = parts[0];
       type = typePart.includes('=') ? typePart.split('=')[1] : typePart;
       token = parts[1];
     } else {
+      // Fallback ke query standar ?type=jpg&token=xxx
       type = req.query.type;
       token = req.query.token;
     }
 
-    if (!type || !token) {
+    // Validasi ketat
+    if (!type || !token || type.length > 10 || token.length < 10) {
       return res.status(400).json({ 
-        message: 'Missing params', 
-        debug: { receivedUrl: req.url } 
+        message: 'Missing or invalid params', 
+        debug: { receivedQuery: queryStr, parsedType: type, parsedToken: token?.substring(0,8)+'...' } 
       });
     }
     
-    // Cek metadata
+    // Cek metadata di GitHub
     const { data: meta } = await getMetadata();
     const fileData = meta[token];
     
@@ -138,31 +153,34 @@ app.get('/st-v2/ikyapis', async (req, res) => {
     }
     
     // STREAMING LANGSUNG DARI RAW GITHUB
-    // Gunakan responseType: 'stream' agar tidak membebani memory Vercel
     const rawUrl = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${STORAGE_BRANCH}/${fileData.githubPath}`;
     
     const response = await axios.get(rawUrl, { 
       responseType: 'stream',
-      timeout: 30000 // Timeout 30 detik biar gak nunggu selamanya
+      timeout: 30000 
     });
 
-    // Set Header sebelum pipe
+    // Set Header Response
     res.setHeader('Content-Type', mime.lookup(`.${type}`) || 'application/octet-stream');
     res.setHeader('Cache-Control', 'public, max-age=31536000');
-    res.setHeader('X-Powered-By', 'IkyyCDN'); // Biar keliatan custom
+    res.setHeader('X-Powered-By', 'IkyyCDN-Streaming');
     
-    // Pipe stream dari GitHub langsung ke Client
-    // Ini kuncinya: data mengalir real-time tanpa disimpan di memory server
+    // Forward Content-Length jika tersedia (biar progress bar muncul di browser)
+    if (response.headers['content-length']) {
+      res.setHeader('Content-Length', response.headers['content-length']);
+    }
+    
+    // Pipe stream langsung ke client
     response.data.pipe(res);
     
-    // Handle error saat streaming putus di tengah jalan
+    // Handle error stream
     response.data.on('error', (err) => {
-      console.error('Stream error:', err.message);
+      console.error('Stream pipe error:', err.message);
       if (!res.headersSent) res.status(502).end('Stream interrupted');
     });
 
   } catch (err) {
-    console.error('Access Error:', err.message);
+    console.error('Access Endpoint Error:', err.message);
     if (!res.headersSent) res.status(500).json({ error: err.message });
   }
 });
