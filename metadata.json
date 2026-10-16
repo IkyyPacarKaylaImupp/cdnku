@@ -246,5 +246,13 @@
     "size": 1234426,
     "uploadedAt": "2026-10-16T21:50:00.366Z",
     "githubPath": "storage/1792187398892_3364f1250c2d28fc.png"
+  },
+  "341ede2517f88871a0de8236de8fad51afd53dc6b868143c81733662043d18b9b766512432a348b6055ea13ac3e31f8aa6c0b48d54f3882c63be89ff3d9dd394": {
+    "filename": "1792187429243_4aa6fb1fc024a455.png",
+    "originalName": "jadianime.png",
+    "type": "png",
+    "size": 1027590,
+    "uploadedAt": "2026-10-16T21:50:30.565Z",
+    "githubPath": "storage/1792187429243_4aa6fb1fc024a455.png"
   }
 }
