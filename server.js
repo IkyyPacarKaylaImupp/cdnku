@@ -64,8 +64,7 @@ app.post('/api/upload.php', upload.single('file'), async (req, res) => {
     res.json({ 
       success: true, 
       data: { 
-        token, 
-        url: `/st-v2/ikyapis?type=${ext.replace('.','')}/token=${token}` 
+        url: `https://ikyyapis-cloud-v1-extra.vercel.app/st-v2/ikyapis?type=${ext.replace('.','')}/token=${token}` 
       } 
     });
   } catch (err) {
