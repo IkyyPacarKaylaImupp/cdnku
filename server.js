@@ -65,7 +65,7 @@ app.post('/api/upload.php', upload.single('file'), async (req, res) => {
     
     const ext = path.extname(req.file.originalname).toLowerCase().replace('.', '');
     const filename = `${Date.now()}_${crypto.randomBytes(8).toString('hex')}.${ext}`;
-    const token = crypto.randomBytes(32).toString('hex');
+    const token = crypto.randomBytes(64).toString('hex');
     const githubPath = `storage/${filename}`;
     
     // Upload file ke GitHub
