@@ -1526,5 +1526,13 @@
     "size": 13023,
     "uploadedAt": "2026-10-18T05:03:58.996Z",
     "githubPath": "storage/1792299838061_f9faaf31d4a9f15e.jpg"
+  },
+  "ce104cf9429a1cdcbe284538ef5b1ebdb6a45d2902c2270cdb06be396ef477a88d5b9a216d9f2bbafa5d6dbda13d1d2096f35ccff8aff3405247e4472ab7b6d5": {
+    "filename": "1792303624969_9e7e8f91d39447ff.png",
+    "originalName": "tobotak.png",
+    "type": "png",
+    "size": 1335687,
+    "uploadedAt": "2026-10-18T06:07:06.531Z",
+    "githubPath": "storage/1792303624969_9e7e8f91d39447ff.png"
   }
 }
