@@ -3550,5 +3550,13 @@
     "size": 1162252,
     "uploadedAt": "2026-11-04T14:11:01.462Z",
     "githubPath": "storage/1793801460028_ec21c1cd301edfaa.png"
+  },
+  "7211045906bf45a4faa284f4f6ffb6d0598db02bdcc235196dd80fea14196416369177021644bf5a929172784d2b8ea1f99e161230840b7ccc03162409c0b70c": {
+    "filename": "1793807568278_2010322eb12446d5.jpg",
+    "originalName": "upscaled_1793807564446.jpg",
+    "type": "jpg",
+    "size": 892478,
+    "uploadedAt": "2026-11-04T15:52:50.048Z",
+    "githubPath": "storage/1793807568278_2010322eb12446d5.jpg"
   }
 }
