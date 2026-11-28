@@ -6830,5 +6830,13 @@
     "size": 25247,
     "uploadedAt": "2026-11-28T10:52:10.187Z",
     "githubPath": "storage/1795863129335_8e7f4ddf6c07ee93.jpg"
+  },
+  "6d642c33ae5ca52cd6a203144e935be088fdf6885b338873c2e44e58665bfd2288a953f5c22be0e0fb1491a8c7a1b1761cc0b2acde7dad728ef207641c115bf0": {
+    "filename": "1795863132044_b2cb414bcdc1a381.jpg",
+    "originalName": "telegram-avatar.jpg",
+    "type": "jpg",
+    "size": 25247,
+    "uploadedAt": "2026-11-28T10:52:12.875Z",
+    "githubPath": "storage/1795863132044_b2cb414bcdc1a381.jpg"
   }
 }
